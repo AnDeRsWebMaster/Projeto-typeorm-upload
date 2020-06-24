@@ -14,10 +14,7 @@ class CreateTransactionService {
     value,
     type,
     category,
-  }: Request): Promise<Transaction> {
-
-    const transaction =
-  }
+  }: Request): Promise<Transaction> {}
 }
 
 export default CreateTransactionService;
