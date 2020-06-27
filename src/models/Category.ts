@@ -14,6 +14,7 @@ class Category {
   @Column()
   title: string;
 
+
   @CreateDateColumn()
   created_at: Date;
 
