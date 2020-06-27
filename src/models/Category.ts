@@ -4,9 +4,10 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToMany
 } from 'typeorm';
 
-@Entity('categories')
+@Entity()
 class Category {
   @PrimaryGeneratedColumn('uuid')
   id: string;
