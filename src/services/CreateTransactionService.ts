@@ -1,4 +1,5 @@
 import AppError from '../errors/AppError';
+import { getRepository } from 'typeorm'
 
 import Transaction from '../models/Transaction';
 
@@ -14,7 +15,12 @@ class CreateTransactionService {
     value,
     type,
     category,
-  }: Request): Promise<Transaction> {}
+  }: Request): Promise<Transaction> {
+    const transactionRepository = getRepository(Transaction) 
+    const checkCategoryExists = await transactionRepository.findOne({
+      where:{category_id}
+    })
+  }
 }
 
 export default CreateTransactionService;
