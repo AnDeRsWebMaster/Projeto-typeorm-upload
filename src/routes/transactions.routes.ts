@@ -2,9 +2,8 @@ import { Router } from 'express';
 import { getRepository} from 'typeorm';
 
 import Transaction from '../models/Transaction';
-import Category from '../models/Category'
 //import TransactionsRepository from '../repositories/TransactionsRepository';
-//import CreateTransactionService from '../services/CreateTransactionService';
+import CreateTransactionService from '../services/CreateTransactionService';
 // import DeleteTransactionService from '../services/DeleteTransactionService';
 // import ImportTransactionsService from '../services/ImportTransactionsService';
 
@@ -19,25 +18,11 @@ transactionsRouter.get('/', async (request, response) => {
 
 transactionsRouter.post('/', async (request, response) => {
   try {
-    const { title, value, type, category } = request.body;   
-    const categRepo= getRepository(Category) 
-    const tranRepo= getRepository(Transaction) 
+    const { title, value, type, category } = request.body; 
+    const createTran = new CreateTransactionService() 
 
-    const checkCateg = await categRepo.findOne({
-      where:{title}
-    })
-    if(!checkCateg){
-      const categoria = await categRepo.create({title})
-      const  {id} = await categRepo.save(categoria)
-      const createTran = await tranRepo.create({category_id : id,title, value, type})
-      const transaction = await tranRepo.save(createTran)
-      console.log(transaction)
-    }
- 
-
-
-
-    //return response.status(201).json(transaction);
+    const returnTran =  await createTran.execute({title, value, type, category})
+    return response.status(201).json(returnTran);
   } catch (error) {
     console.log(error)
     throw new Error('Erro ao criar uma transação');

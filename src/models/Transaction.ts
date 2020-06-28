@@ -24,10 +24,9 @@ class Transaction {
   @Column()
   type: 'income' | 'outcome';
 
-
   @ManyToOne(() => Category)
   @JoinColumn({ name: 'category_id'})
-  category_id:Category
+  category_id:String
 
   @CreateDateColumn()
   created_at: Date;
