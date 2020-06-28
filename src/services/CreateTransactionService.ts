@@ -20,13 +20,13 @@ class CreateTransactionService {
       const categTitle = {title:category}
       const createcateg = categRepo.create(categTitle)
       const resCateg = await categRepo.save(createcateg)
-      const createTran =  tranRepo.create({title, value, type,category_id:resCateg.id})
+      const createTran =  tranRepo.create({title, value, type,category:resCateg.id})
       await tranRepo.save(createTran) 
 
       return createTran
 
     }else{
-      const createTran =  tranRepo.create({title, value, type, category_id:checkCateg.id})
+      const createTran =  tranRepo.create({title, value, type, category:checkCateg.id})
       await tranRepo.save(createTran) 
 
       return createTran
