@@ -23,22 +23,16 @@ class CreateTransactionService {
      
     }
 
-    const checkCateg = await categRepo.findOne({where:{title:category}})
+    let checkCateg = await categRepo.findOne({where:{title:category}})
     if(!checkCateg){
-      const categTitle = {title:category}
-      const createcateg = categRepo.create(categTitle)
-      const resCateg = await categRepo.save(createcateg)
-      const createTran =  tranRepo.create({title, value, type,category:resCateg.id})
+      checkCateg = categRepo.create({title:category})
+      await categRepo.save(checkCateg)
+    }
+      const createTran =  tranRepo.create({title, value, type,category:checkCateg})
       await tranRepo.save(createTran) 
 
       return createTran
 
-    }else{
-      const createTran =  tranRepo.create({title, value, type, category:checkCateg.id})
-      await tranRepo.save(createTran) 
-
-      return createTran
-    }       
 
   }
 }

@@ -14,7 +14,7 @@ class TransactionsRepository extends Repository<Transaction> {
   public async getBalance(): Promise<Balance> {
       const repository = getRepository(Transaction)
       const ResBalance = await repository.find();
-      const balance = ResBalance.reduce(
+      const {income,outcome} = ResBalance.reduce(
         (acc, elem) => {
   
           if (elem.type === 'income') {
@@ -23,12 +23,7 @@ class TransactionsRepository extends Repository<Transaction> {
           if (elem.type === 'outcome') {
             acc.outcome += elem.value;
           }
-
-          return {
-            income: acc.income,
-            outcome: acc.outcome,
-            total: acc.income - acc.outcome,
-          };
+          return acc
         },
         {
           income: 0,
@@ -36,7 +31,8 @@ class TransactionsRepository extends Repository<Transaction> {
           total: 0,
         },
       );
-      return balance;
+      const total = income - outcome
+      return {income,outcome,total}
   }
 }
 
