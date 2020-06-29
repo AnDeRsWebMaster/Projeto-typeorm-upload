@@ -19,8 +19,7 @@ class CreateTransactionService {
 
     const checkSaldo = await bal.getBalance()
     if(type === 'outcome' && value > checkSaldo.total){
-      throw new AppError('Saldo indisponivel')
-     
+      throw new AppError('Saldo indisponivel')     
     }
 
     let checkCateg = await categRepo.findOne({where:{title:category}})

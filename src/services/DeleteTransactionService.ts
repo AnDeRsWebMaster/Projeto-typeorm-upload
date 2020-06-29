@@ -8,15 +8,13 @@ interface Request{
 class DeleteTransactionService {
   public async execute({id}:Request): Promise<void> {
     const delRepo = getRepository(Transaction)
-    try {
-      const delOK = await delRepo.delete(id)
-
-      return 
-    } catch (error) {
-      throw new AppError('Erro ao deletar')
-    }
-    
    
+      const transaction = await delRepo.findOne(id)
+      if(!transaction){
+        throw new AppError("Transação nao encontrada")
+      }
+        await delRepo.remove(transaction)
+  
   }
 }
 
